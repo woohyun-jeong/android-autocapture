@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">android-autocapture</string>
+    <string name="app_name">자동 인식 촬영</string>
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>

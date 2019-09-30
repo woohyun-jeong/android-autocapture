@@ -19,6 +19,7 @@ package com.whjung.android_autocapture
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.ImageFormat
@@ -50,6 +51,7 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.whjung.android_autocapture.facetracker.FaceTrackerActivity
 import java.io.File
 import java.util.Arrays
 import java.util.Collections
@@ -688,10 +690,13 @@ class Camera2BasicFragment : Fragment(), View.OnClickListener,
             R.id.picture -> lockFocus()
             R.id.info -> {
                 if (activity != null) {
-                    AlertDialog.Builder(activity)
-                        .setMessage(R.string.intro_message)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show()
+                    //
+                    val nextIntent = Intent(activity, FaceTrackerActivity::class.java)
+                    startActivity(nextIntent)
+//                    AlertDialog.Builder(activity)
+//                        .setMessage(R.string.intro_message)
+//                        .setPositiveButton(android.R.string.ok, null)
+//                        .show()
                 }
             }
         }
