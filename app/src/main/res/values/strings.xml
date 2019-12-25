@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">자동 인식 촬영</string>
     <string name="picture">Picture</string>
@@ -10,4 +12,8 @@
             you can display camera preview and take pictures.
         ]]>
     </string>
+
+    <string name="left_eyes_close_persentage">왼쪽 눈 감김 정도는 : %d 입니다.</string>
+    <string name="right_eyes_close_persentage">오른쪽 눈 감김 정도는 : %d 입니다.</string>
+    <string name="happiness_persentage">현재 사용자의 행복정도는 : %d 입니다.</string>
 </resources>

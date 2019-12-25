@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,7 @@ public final class FaceTrackerActivity extends AppCompatActivity {
     /**
      * Initializes the UI and initiates the creation of a face detector.
      */
+    @SuppressLint("StringFormatMatches")
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -83,6 +85,23 @@ public final class FaceTrackerActivity extends AppCompatActivity {
         tvLeftEyes = (TextView) findViewById(R.id.tv_left_eyes);
         tvRightEyes = (TextView) findViewById(R.id.tv_right_eyes);
         tvHappiness = (TextView) findViewById(R.id.tv_happiness);
+
+        tvLeftEyes.setText(String.format(getString(R.string.left_eyes_close_persentage, 0)));
+        tvRightEyes.setText(String.format(getString(R.string.right_eyes_close_persentage, 0)));
+        tvHappiness.setText(String.format(getString(R.string.happiness_persentage, 0)));
+
+        Button btnLicense = (Button) findViewById(R.id.btn_license);
+        btnLicense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isFinishing()) {
+                    LicenseDialog dialog = new LicenseDialog(FaceTrackerActivity.this);
+                    dialog.setCancelable(false);
+                    dialog.show();
+                }
+            }
+        });
+
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);

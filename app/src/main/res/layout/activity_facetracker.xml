@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/topLayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -20,4 +20,39 @@
 
     </com.whjung.android_autocapture.ui.camera.CameraSourcePreview>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_license"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_left_eyes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="오픈 소스 라이센스"/>
+
+    <TextView
+        android:id="@+id/tv_left_eyes"
+        android:textSize="20dp"
+        android:text="@string/left_eyes_close_persentage"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_right_eyes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_right_eyes"
+        android:textSize="20dp"
+        android:text="@string/right_eyes_close_persentage"
+        app:layout_constraintBottom_toTopOf="@+id/tv_happiness"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_happiness"
+        android:textSize="20dp"
+        android:text="@string/happiness_persentage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
