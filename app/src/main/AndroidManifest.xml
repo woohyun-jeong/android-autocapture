@@ -33,7 +33,7 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="face" />
 
-        <activity android:name=".CameraActivity">
+        <activity android:name=".facetracker.FaceTrackerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".facetracker.FaceTrackerActivity"/>
+        <activity android:name=".CameraActivity"/>
         <activity android:name=".MainActivity"/>
 
     </application>

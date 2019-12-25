@@ -16,6 +16,7 @@
 package com.whjung.android_autocapture.facetracker;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,8 +24,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -59,6 +63,11 @@ public final class FaceTrackerActivity extends AppCompatActivity {
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
 
+    // view
+    private TextView tvLeftEyes;
+    private TextView tvRightEyes;
+    private TextView tvHappiness;
+
     //==============================================================================================
     // Activity Methods
     //==============================================================================================
@@ -70,6 +79,10 @@ public final class FaceTrackerActivity extends AppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_facetracker);
+
+        tvLeftEyes = (TextView) findViewById(R.id.tv_left_eyes);
+        tvRightEyes = (TextView) findViewById(R.id.tv_right_eyes);
+        tvHappiness = (TextView) findViewById(R.id.tv_happiness);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
@@ -294,19 +307,36 @@ public final class FaceTrackerActivity extends AppCompatActivity {
         @Override
         public void onNewItem(int faceId, Face item) {
             mFaceGraphic.setId(faceId);
-            mCameraSource.takePicture(new CameraSource.ShutterCallback() {
-                @Override
-                public void onShutter() {
 
+            Log.d("TAG", String.valueOf(item.getIsLeftEyeOpenProbability()));
+            Log.d("TAG", String.valueOf(item.getIsRightEyeOpenProbability()));
+            Log.d("TAG", String.valueOf(item.getIsSmilingProbability()));
+
+            final int iLeftEyeOpenProbability = (int) (item.getIsLeftEyeOpenProbability() * 100);
+            final int iRightEyeOpenProbability = (int) (item.getIsRightEyeOpenProbability() * 100);
+            final int iSmilingProbability = (int) (item.getIsSmilingProbability() * 100);
+
+            new Thread(new Runnable()
+            {
+                @Override public void run()
+                {
+                   {
+                        runOnUiThread(new Runnable() {
+                            @SuppressLint("StringFormatMatches")
+                            public void run() {
+                                tvLeftEyes.setText(String.format(getString(R.string.left_eyes_close_persentage, iLeftEyeOpenProbability)));
+                                tvRightEyes.setText(String.format(getString(R.string.right_eyes_close_persentage, iRightEyeOpenProbability)));
+                                tvHappiness.setText(String.format(getString(R.string.happiness_persentage, iSmilingProbability)));
+
+                                Toast.makeText(FaceTrackerActivity.this, "얼굴을 찾았습니다. 3초 후 자동 촬영됩니다.", Toast.LENGTH_SHORT).show();
+
+                                autoCapture();
+                            }
+                        });
+                   }
                 }
-            }, new CameraSource.PictureCallback() {
+            }).start();
 
-                @Override
-                public void onPictureTaken(byte[] bytes) {
-
-                }
-            });
-            mCameraSource.stop();
         }
 
         /**
@@ -336,6 +366,31 @@ public final class FaceTrackerActivity extends AppCompatActivity {
         @Override
         public void onDone() {
             mOverlay.remove(mFaceGraphic);
+        }
+
+        // call to capture
+        @SuppressLint("StringFormatInvalid")
+        private void autoCapture() {
+
+            Handler delayHandler = new Handler();
+            delayHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCameraSource.takePicture(new CameraSource.ShutterCallback() {
+                        @Override
+                        public void onShutter() {
+
+                        }
+                    }, new CameraSource.PictureCallback() {
+
+                        @Override
+                        public void onPictureTaken(byte[] bytes) {
+
+                        }
+                    });
+                    mCameraSource.stop();
+                }
+            }, 3000);
         }
     }
 }
